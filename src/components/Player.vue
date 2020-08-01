@@ -2,24 +2,24 @@
   <table align='center' border='1'>
     <tr v-for='r of 5' :key='r'>
       <td
-        v-bind:class='squares.firstCol[r-1].status'
-        v-on:click='changeToEnable(squares.firstCol[r-1])'
+        v-bind:class='{isFilled : squares.firstCol[r-1].isFilled}'
+        v-on:click='switchSquareFilled(squares.firstCol[r-1])'
       >{{squares.firstCol[r-1].number}}</td>
       <td
-        v-bind:class='squares.secondCol[r-1].status'
-        v-on:click='changeToEnable(squares.secondCol[r-1])'
+        v-bind:class='{isFilled : squares.secondCol[r-1].isFilled}'
+        v-on:click='switchSquareFilled(squares.secondCol[r-1])'
       >{{squares.secondCol[r-1].number}}</td>
       <td
-        v-bind:class='squares.thirdCol[r-1].status'
-        v-on:click='changeToEnable(squares.thirdCol[r-1])'
+        v-bind:class='{isFilled : squares.thirdCol[r-1].isFilled}'
+        v-on:click='switchSquareFilled(squares.thirdCol[r-1])'
       >{{squares.thirdCol[r-1].number}}</td>
       <td
-        v-bind:class='squares.fourthCol[r-1].status'
-        v-on:click='changeToEnable(squares.fourthCol[r-1])'
+        v-bind:class='{isFilled : squares.fourthCol[r-1].isFilled}'
+        v-on:click='switchSquareFilled(squares.fourthCol[r-1])'
       >{{squares.fourthCol[r-1].number}}</td>
       <td
-        v-bind:class='squares.fifthCol[r-1].status'
-        v-on:click='changeToEnable(squares.fifthCol[r-1])'
+        v-bind:class='{isFilled : squares.fifthCol[r-1].isFilled}'
+        v-on:click='switchSquareFilled(squares.fifthCol[r-1])'
       >{{squares.fifthCol[r-1].number}}</td>
     </tr>
   </table>
@@ -46,6 +46,7 @@ export default {
     this.squares.fourthCol = this.initCol(46, 60)
     this.squares.fifthCol = this.initCol(61, 75)
   },
+  beforeUpdate: function () {},
   methods: {
     /**
      * 列を初期化する関数
@@ -56,7 +57,7 @@ export default {
       var array = []
       // 最小値から最大値まで数字を全て配列に追加
       for (var i = minNum; i <= maxNum; i++) {
-        array.push({ number: i, status: 'disable' })
+        array.push({ number: i, isFilled: false })
       }
       // シャッフル
       for (var j = array.length - 1; j > 0; j--) {
@@ -69,21 +70,34 @@ export default {
       return array.slice(0, 5)
     },
     /**
-     * マスを有効化する関数
-     * @description マスのステータスをenableに変更する
+     * マスの選択状態を切り替える
+     * @description マスの選択状態を反転させる。戻す場合は確認ダイアログを出す。
      */
-    changeToEnable: function (square) {
-      square.status = 'enable'
+    switchSquareFilled: function (square) {
+      if (square.isFilled) {
+        if (confirm('このマスを戻しますか？')) {
+          square.isFilled = false
+        }
+      } else {
+        square.isFilled = true
+      }
+    },
+    checkSquaresVertical: function (squares) {},
+    countFilled: function (array) {
+      var cnt = 0
+      array.forEach((square) => {
+        if (square.isFilled) {
+          cnt++
+        }
+      })
+      return cnt
     }
   }
 }
 </script>
 
 <style>
-.disable {
-  background-color: lightgray;
-}
-.enable {
+.isFilled {
   background-color: yellow;
 }
 td {
