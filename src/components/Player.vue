@@ -1,26 +1,17 @@
 <template>
   <table align='center' border='1'>
-    <tr v-for='r of 5' :key='r'>
+    <!-- 5行分繰り返す -->
+    <tr v-for='recNum of 5' :key='recNum'>
+      <!-- 5列分繰り返す -->
       <td
-        v-bind:class='{isFilled : squares.firstCol[r-1].isFilled}'
-        v-on:click='switchSquareFilled(squares.firstCol[r-1])'
-      >{{squares.firstCol[r-1].number}}</td>
-      <td
-        v-bind:class='{isFilled : squares.secondCol[r-1].isFilled}'
-        v-on:click='switchSquareFilled(squares.secondCol[r-1])'
-      >{{squares.secondCol[r-1].number}}</td>
-      <td
-        v-bind:class='{isFilled : squares.thirdCol[r-1].isFilled}'
-        v-on:click='switchSquareFilled(squares.thirdCol[r-1])'
-      >{{squares.thirdCol[r-1].number}}</td>
-      <td
-        v-bind:class='{isFilled : squares.fourthCol[r-1].isFilled}'
-        v-on:click='switchSquareFilled(squares.fourthCol[r-1])'
-      >{{squares.fourthCol[r-1].number}}</td>
-      <td
-        v-bind:class='{isFilled : squares.fifthCol[r-1].isFilled}'
-        v-on:click='switchSquareFilled(squares.fifthCol[r-1])'
-      >{{squares.fifthCol[r-1].number}}</td>
+        v-bind:class='[
+          { filled: squares[colNum - 1][recNum - 1].isFilled },
+          squares[colNum - 1][recNum - 1].status
+        ]'
+        v-on:click='switchSquareFilled(colNum - 1, recNum - 1)'
+        v-for='colNum of 5'
+        :key='colNum'
+      >{{ squares[colNum - 1][recNum - 1].number }}</td>
     </tr>
   </table>
 </template>
@@ -30,23 +21,20 @@ export default {
   name: 'Player',
   data: function () {
     return {
-      squares: {
-        firstCol: [],
-        secondCol: [],
-        thirdCol: [],
-        fourthCol: [],
-        fifthCol: []
-      }
+      squares: [[], [], [], [], []]
     }
   },
   created: function () {
-    this.squares.firstCol = this.initCol(1, 15)
-    this.squares.secondCol = this.initCol(16, 30)
-    this.squares.thirdCol = this.initCol(31, 45)
-    this.squares.fourthCol = this.initCol(46, 60)
-    this.squares.fifthCol = this.initCol(61, 75)
+    var minNum = 1
+    var maxNum = 15
+    for (let index = 0; index < 5; index++) {
+      this.squares[index] = this.initCol(minNum, maxNum)
+      minNum += 15
+      maxNum += 15
+    }
+    // 中心のマスは初めから埋めておく
+    this.squares[2][2] = { number: '★', isFilled: true, status: '' }
   },
-  beforeUpdate: function () {},
   methods: {
     /**
      * 列を初期化する関数
@@ -57,7 +45,7 @@ export default {
       var array = []
       // 最小値から最大値まで数字を全て配列に追加
       for (var i = minNum; i <= maxNum; i++) {
-        array.push({ number: i, isFilled: false })
+        array.push({ number: i, isFilled: false, status: '' })
       }
       // シャッフル
       for (var j = array.length - 1; j > 0; j--) {
@@ -73,35 +61,144 @@ export default {
      * マスの選択状態を切り替える
      * @description マスの選択状態を反転させる。戻す場合は確認ダイアログを出す。
      */
-    switchSquareFilled: function (square) {
-      if (square.isFilled) {
+    switchSquareFilled: function (c, r) {
+      // 中心のマスは変更できない
+      if (c === 2 && r === 2) {
+        return
+      }
+
+      // 既に埋められている場合は確認ダイアログ表示
+      if (this.squares[c][r].isFilled) {
         if (confirm('このマスを戻しますか？')) {
-          square.isFilled = false
+          this.squares[c][r].isFilled = false
         }
       } else {
-        square.isFilled = true
+        this.squares[c][r].isFilled = true
+      }
+
+      // 全マスのステータス初期化
+      this.resetAllSquaresStatus(this.squares)
+      // 垂直・水平・対角方向のマス更新
+      this.updateSquaresVertical(this.squares)
+      this.updateSquaresHorizonal(this.squares)
+      this.updateSquaresDiagonal(this.squares)
+
+      this.refreshAllSquares()
+    },
+    /**
+     * 垂直方向でマスを更新する関数
+     */
+    updateSquaresVertical: function (squares) {
+      for (let colNum = 0; colNum < 5; colNum++) {
+        var cnt = this.countFilled(squares[colNum])
+        this.updateStatus(squares[colNum], cnt)
       }
     },
-    checkSquaresVertical: function (squares) {},
+    /**
+     * 水平方向でマスを更新する関数
+     */
+    updateSquaresHorizonal: function (squares) {
+      for (let recNum = 0; recNum < 5; recNum++) {
+        var array = []
+        for (let colNum = 0; colNum < 5; colNum++) {
+          array.push(squares[colNum][recNum])
+        }
+        var cnt = this.countFilled(array)
+        this.updateStatus(array, cnt)
+      }
+    },
+    /**
+     * 体格方向でマスを更新する関数
+     */
+    updateSquaresDiagonal: function (squares) {
+      var arrayLtoR = []
+      var arrayRtoL = []
+      var arrays = []
+      for (let colNum = 0; colNum < 5; colNum++) {
+        arrayLtoR.push(squares[colNum][colNum])
+        arrayRtoL.push(squares[colNum][4 - colNum])
+        arrays = [arrayLtoR, arrayRtoL]
+      }
+
+      for (let index = 0; index < arrays.length; index++) {
+        var cnt = this.countFilled(arrays[index])
+        this.updateStatus(arrays[index], cnt)
+      }
+    },
+    /**
+     * 埋まっているマスを数を返す関数
+     */
     countFilled: function (array) {
-      var cnt = 0
+      let cnt = 0
       array.forEach((square) => {
         if (square.isFilled) {
           cnt++
         }
       })
       return cnt
+    },
+    /**
+     * 数に応じてステータスを変える関数
+     */
+    updateStatus: function (array, cnt) {
+      let status
+      if (cnt === 4) {
+        status = 'reach'
+      } else if (cnt === 5) {
+        status = 'bingo'
+      } else {
+        return
+      }
+      for (let index = 0; index < 5; index++) {
+        if (array[index].isFilled) {
+          // 既にステータスがビンゴの場合は、更新しない
+          if (array[index].status === 'bingo') {
+            continue
+          }
+          array[index].status = status
+        }
+      }
+    },
+    /**
+     * 全マスのステータスをリセットする
+     */
+    resetAllSquaresStatus: function (squares) {
+      for (let colNum = 0; colNum < 5; colNum++) {
+        for (let recNum = 0; recNum < 5; recNum++) {
+          squares[colNum][recNum].status = ''
+        }
+      }
+    },
+    /**
+     * 全マスをリフレッシュする関数
+     * @description この処理がないと、リアクティブに更新されない場合がある
+     */
+    refreshAllSquares: function () {
+      for (let colNum = 0; colNum < 5; colNum++) {
+        this.$set(this.squares, colNum, this.squares[colNum])
+      }
     }
   }
 }
 </script>
 
 <style>
-.isFilled {
+.filled {
+  font-weight: 100;
+  color: lightgray;
+  text-decoration-line: line-through;
+}
+.reach {
   background-color: yellow;
 }
+.bingo {
+  background-color: red;
+}
 td {
+  font-size: 150%;
+  font-weight: bold;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
 }
 </style>
