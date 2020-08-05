@@ -4,5 +4,8 @@ module.exports = {
     appleMobileWebAppStatusBarStyle: 'black'
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/bingo/' : '/',
-  outputDir: 'docs'
+  outputDir: 'docs',
+  transpileDependencies: [
+    'vuetify'
+  ]
 }
