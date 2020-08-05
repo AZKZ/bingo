@@ -1,16 +1,22 @@
 <template>
-  <div id='app'>
-    <button v-on:click='mode="home"'>Home</button>
-    <br />
-    <br />
-    <div v-if='mode == "home"'>
-      <button v-on:click='mode="host"'>Host</button>
-      <br />
-      <button v-on:click='mode="player"'>Player</button>
-    </div>
-    <Host v-if='mode == "host"' />
-    <Player v-if='mode == "player"' />
-  </div>
+  <v-app>
+    <v-container>
+      <div id='app'>
+        <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="home"'>
+          <v-icon left>mdi-home</v-icon>Home
+        </v-btn>
+        <br />
+        <br />
+        <div v-if='mode == "home"'>
+          <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="host"'>Host</v-btn>
+          <br />
+          <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="player"'>Player</v-btn>
+        </div>
+        <Host v-if='mode == "host"' />
+        <Player v-if='mode == "player"' />
+      </div>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
