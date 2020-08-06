@@ -1,19 +1,24 @@
 <template>
-  <table align='center' border='1'>
-    <!-- 5行分繰り返す -->
-    <tr v-for='recNum of 5' :key='recNum'>
-      <!-- 5列分繰り返す -->
-      <td
-        v-bind:class='[
-          { filled: squares[colNum - 1][recNum - 1].isFilled },
-          squares[colNum - 1][recNum - 1].status
-        ]'
-        v-on:click='switchSquareFilled(colNum - 1, recNum - 1)'
-        v-for='colNum of 5'
-        :key='colNum'
-      >{{ squares[colNum - 1][recNum - 1].number }}</td>
-    </tr>
-  </table>
+  <div id='player'>
+    <div class='d-flex justify-center ma-2'>
+      <table border='1'>
+        <!-- 5行分繰り返す -->
+        <tr v-for='recNum of 5' :key='recNum'>
+          <!-- 5列分繰り返す -->
+          <td
+            class='square'
+            v-bind:class='[
+              { filled: squares[colNum - 1][recNum - 1].isFilled },
+              squares[colNum - 1][recNum - 1].status
+            ]'
+            v-on:click='switchSquareFilled(colNum - 1, recNum - 1)'
+            v-for='colNum of 5'
+            :key='colNum'
+          >{{ squares[colNum - 1][recNum - 1].number }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -194,7 +199,7 @@ export default {
 .bingo {
   background-color: red;
 }
-td {
+.square {
   font-size: 150%;
   font-weight: bold;
   width: 50px;
