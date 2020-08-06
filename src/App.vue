@@ -2,11 +2,11 @@
   <v-app>
     <v-container>
       <div id='app'>
-        <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="home"'>
-          <v-icon left>mdi-home</v-icon>Home
-        </v-btn>
-        <br />
-        <br />
+        <div v-if='mode != "home"'>
+          <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="home"'>
+            <v-icon left>mdi-home</v-icon>Home
+          </v-btn>
+        </div>
         <div v-if='mode == "home"'>
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="host"'>Host</v-btn>
           <br />
