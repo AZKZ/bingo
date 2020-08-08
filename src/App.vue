@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-container>
-      <div id='app'>
+      <div id='app' class='mt-n6'>
         <div v-if='mode != "home"'>
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="home"'>
             <v-icon left>mdi-home</v-icon>Home
