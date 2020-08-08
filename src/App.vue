@@ -1,13 +1,13 @@
 <template>
   <v-app>
     <v-container>
-      <div id='app' class='mt-n6'>
+      <div id='app'>
         <div v-if='mode != "home"'>
-          <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="home"'>
+          <v-btn class='ma-2' outlined color='secondary' v-on:click='backHome'>
             <v-icon left>mdi-home</v-icon>Home
           </v-btn>
         </div>
-        <div v-if='mode == "home"'>
+        <div v-if='mode == "home"' class='mt-16'>
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="host"'>Host</v-btn>
           <br />
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="player"'>Player</v-btn>
@@ -33,6 +33,13 @@ export default {
   components: {
     Host,
     Player
+  },
+  methods: {
+    backHome: function () {
+      if (confirm('HOME画面に戻りますか？')) {
+        this.mode = 'home'
+      }
+    }
   }
 }
 </script>
@@ -44,6 +51,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
