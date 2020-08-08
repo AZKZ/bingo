@@ -1,11 +1,12 @@
 <template>
   <div id='host'>
-      <p id='number'>{{number}}</p>
+      <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
+      <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
       <v-btn class='ma-2' outlined color='primary' v-on:click='drawNumber'>Draw</v-btn>
         <v-row class='ma-2' no-gutters>
           <v-col v-for='n in drawnNumbers.length' :key='n' cols="2" md='1'>
-            <v-card outlined tile >
-              <span class='drawn-number'>{{drawnNumbers[n-1]}}</span>
+            <v-card outlined tile>
+              <span class='text-h4 font-weight-bold'>{{drawnNumbers[n-1]}}</span>
             </v-card>
           </v-col>
         </v-row>
@@ -18,7 +19,14 @@ export default {
   data: function () {
     return {
       number: 'START',
-      drawnNumbers: []
+      drawnNumbers: [],
+      bingoId: ''
+    }
+  },
+  created: function () {
+    // ランダムな数字6桁をビンゴIDに設定する
+    for (let i = 0; i < 6; i++) {
+      this.bingoId += this.getRandomNumber(1, 9)
     }
   },
   methods: {
@@ -42,19 +50,17 @@ export default {
       }
 
       // 次の数字にランダム値を設定
-      let nextNumber = this.getRandomNumber()
+      let nextNumber = this.getRandomNumber(1, 75)
 
       // 既出ではない数字が出るまで繰り返す
       while (this.drawnNumbers.includes(nextNumber)) {
-        nextNumber = this.getRandomNumber()
+        nextNumber = this.getRandomNumber(1, 75)
       }
 
       // ビューの数字を変更する
       this.number = nextNumber
     },
-    getRandomNumber: function () {
-      const min = 1
-      const max = 75
+    getRandomNumber: function (min, max) {
       return Math.floor(min + Math.random() * (max - min + 1))
     }
   }
@@ -62,11 +68,4 @@ export default {
 </script>
 
 <style>
-#number {
-  font-size: 600%;
-}
-.drawn-number {
-  font-size:300%;
-}
-
 </style>
