@@ -1,5 +1,6 @@
 <template>
   <div id='player'>
+    <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <div class='d-flex justify-center ma-2'>
       <table border='1'>
         <!-- 5行分繰り返す -->
@@ -11,38 +12,137 @@
               { filled: squares[colNum - 1][recNum - 1].isFilled },
               squares[colNum - 1][recNum - 1].status
             ]'
-            v-on:click='switchSquareFilled(colNum - 1, recNum - 1)'
+            v-on:click='switchSquareFilled(colNum - 1, recNum - 1,squares)'
             v-for='colNum of 5'
             :key='colNum'
           >{{ squares[colNum - 1][recNum - 1].number }}</td>
         </tr>
       </table>
     </div>
+    <v-dialog v-model='dialog' persistent max-width='500px'>
+      <template v-slot:activator='{ on, attrs }'>
+        <v-btn
+          color='primary'
+          v-bind='attrs'
+          v-on='on'
+          x-small
+        >
+          New Bingo Game
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span>New Bingo Game</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+              <v-text-field label='Bingo ID' v-model='bingoId' required></v-text-field>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color='primary' text @click='dialog = false'>Cancel</v-btn>
+          <v-btn color='primary' text @click='createBingoCard(bingoId,squares)'>Start</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import { openDB } from 'idb/with-async-ittr.js'
+
 export default {
   name: 'Player',
   data: function () {
     return {
+      bingoId: '',
+      dialog: false,
       squares: [[], [], [], [], []]
     }
   },
   created: function () {
-    var minNum = 1
-    var maxNum = 15
-    for (let index = 0; index < 5; index++) {
-      this.squares[index] = this.initCol(minNum, maxNum)
-      minNum += 15
-      maxNum += 15
-    }
-    // 中心のマスは初めから埋めておく
-    this.squares[2][2] = { number: '★', isFilled: true, status: '' }
+    // 先にsquaresを作らないと、isFulledの読み込みなどでエラーになる
+    this.squares = this.getNewSquares()
+    this.dialog = true
   },
   methods: {
     /**
-     * 列を初期化する関数
+     * ビンゴカードを作成する
+     */
+    createBingoCard: async function (inputBingoId, inputSquares) {
+      // オブジェクトストアの取得
+      const store = await this.getBingoObjectStore()
+
+      // 既存データの取得
+      const existsBingocard = await store.get(inputBingoId)
+
+      if (await existsBingocard === undefined) {
+      // 未登録であれば、新規登録
+        // ゲーム途中から新規ゲームを開始する場合も考慮して、都度squaresを新しくする
+        this.squares = await this.getNewSquares()
+        await store.add({ bingoId: inputBingoId, squares: inputSquares, updateDateTime: new Date().getTime() })
+      } else {
+      // 登録されていれば復元
+        this.squares = await existsBingocard.squares
+      }
+
+      this.dialog = false
+    },
+    /**
+     * ビンゴカードを保存する
+     */
+    saveBingoCard: async function (inputBingoId, inputSquares) {
+      const store = await this.getBingoObjectStore()
+      const bingoCard = await { bingoId: inputBingoId, squares: inputSquares, updateDateTime: new Date().getTime() }
+      await store.put(bingoCard)
+    },
+    /**
+     * ビンゴで使うオブジェクトストアを取得する
+     */
+    getBingoObjectStore: async function () {
+      // IndexedDBをopen
+      const db = await this.openBingoDb()
+      // トランザクションの設定
+      const tx = await db.transaction('bingocards', 'readwrite')
+      // オブジェクトストアの指定
+      const store = await tx.objectStore('bingocards')
+
+      return store
+    },
+    /**
+     * ビンゴで使うIndexedDBをopenする
+     */
+    openBingoDb: async function () {
+      const db = await openDB('BingoDatabase', 1, {
+        // IndexedDBが存在していない場合は、createする
+        upgrade (db) {
+          const store = db.createObjectStore('bingocards', { keyPath: 'bingoId' })
+          store.createIndex('updateDateTime', 'updateDateTime')
+        }
+      })
+      return db
+    },
+    /**
+     * 新規のsquaresを取得する
+     */
+    getNewSquares: function () {
+      const squares = [[], [], [], [], []]
+
+      var minNum = 1
+      var maxNum = 15
+      for (let index = 0; index < 5; index++) {
+        squares[index] = this.initCol(minNum, maxNum)
+        minNum += 15
+        maxNum += 15
+      }
+      // 中心のマスは初めから埋めておく
+      squares[2][2] = { number: '★', isFilled: true, status: '' }
+
+      return squares
+    },
+    /**
+     * 列を初期化する
      * @description 指定数値の範囲内でランダムな数値が格納される
      */
     initCol: function (minNum, maxNum) {
@@ -66,32 +166,33 @@ export default {
      * マスの選択状態を切り替える
      * @description マスの選択状態を反転させる。戻す場合は確認ダイアログを出す。
      */
-    switchSquareFilled: function (c, r) {
+    switchSquareFilled: function (colNum, rowNum, squares) {
       // 中心のマスは変更できない
-      if (c === 2 && r === 2) {
+      if (colNum === 2 && rowNum === 2) {
         return
       }
 
       // 既に埋められている場合は確認ダイアログ表示
-      if (this.squares[c][r].isFilled) {
+      if (squares[colNum][rowNum].isFilled) {
         if (confirm('このマスを戻しますか？')) {
-          this.squares[c][r].isFilled = false
+          squares[colNum][rowNum].isFilled = false
         }
       } else {
-        this.squares[c][r].isFilled = true
+        squares[colNum][rowNum].isFilled = true
       }
 
       // 全マスのステータス初期化
-      this.resetAllSquaresStatus(this.squares)
+      this.resetAllSquaresStatus(squares)
       // 垂直・水平・対角方向のマス更新
-      this.updateSquaresVertical(this.squares)
-      this.updateSquaresHorizonal(this.squares)
-      this.updateSquaresDiagonal(this.squares)
+      this.updateSquaresVertical(squares)
+      this.updateSquaresHorizonal(squares)
+      this.updateSquaresDiagonal(squares)
 
-      this.refreshAllSquares()
+      this.refreshAllSquares(squares)
+      this.saveBingoCard(this.bingoId, squares)
     },
     /**
-     * 垂直方向でマスを更新する関数
+     * 垂直方向でマスを更新する
      */
     updateSquaresVertical: function (squares) {
       for (let colNum = 0; colNum < 5; colNum++) {
@@ -100,7 +201,7 @@ export default {
       }
     },
     /**
-     * 水平方向でマスを更新する関数
+     * 水平方向でマスを更新する
      */
     updateSquaresHorizonal: function (squares) {
       for (let recNum = 0; recNum < 5; recNum++) {
@@ -113,7 +214,7 @@ export default {
       }
     },
     /**
-     * 体格方向でマスを更新する関数
+     * 体格方向でマスを更新する
      */
     updateSquaresDiagonal: function (squares) {
       var arrayLtoR = []
@@ -131,7 +232,7 @@ export default {
       }
     },
     /**
-     * 埋まっているマスを数を返す関数
+     * 埋まっているマスを数を返す
      */
     countFilled: function (array) {
       let cnt = 0
@@ -143,7 +244,7 @@ export default {
       return cnt
     },
     /**
-     * 数に応じてステータスを変える関数
+     * 数に応じてステータスを変える
      */
     updateStatus: function (array, cnt) {
       let status
@@ -175,13 +276,11 @@ export default {
       }
     },
     /**
-     * 全マスをリフレッシュする関数
+     * 全マスをリフレッシュする
      * @description この処理がないと、リアクティブに更新されない場合がある
      */
-    refreshAllSquares: function () {
-      for (let colNum = 0; colNum < 5; colNum++) {
-        this.$set(this.squares, colNum, this.squares[colNum])
-      }
+    refreshAllSquares: function (squares) {
+      this.squares = squares
     }
   }
 }
