@@ -287,9 +287,16 @@ export default {
 </script>
 
 <style>
+.square {
+  font-size: 150%;
+  font-weight: bold;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 .filled {
-  font-weight: 100;
-  color: lightgray;
+  font-weight: lighter;
+  background-color: lightgray;
   text-decoration-line: line-through;
 }
 .reach {
@@ -298,11 +305,5 @@ export default {
 .bingo {
   background-color: red;
 }
-.square {
-  font-size: 150%;
-  font-weight: bold;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
+
 </style>
