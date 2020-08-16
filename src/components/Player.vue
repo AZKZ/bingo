@@ -42,7 +42,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color='primary' text @click='dialog = false'>Cancel</v-btn>
-          <v-btn color='primary' text @click='createBingoCard(bingoId,squares)'>Start</v-btn>
+          <v-btn color='primary' text @click='createBingoCard(bingoId)'>Start</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -61,16 +61,43 @@ export default {
       squares: [[], [], [], [], []]
     }
   },
-  created: function () {
+  created: async function () {
     // 先にsquaresを作らないと、isFulledの読み込みなどでエラーになる
     this.squares = this.getNewSquares()
-    this.dialog = true
+    // 最新のビンゴIDを取得
+    this.bingoId = await this.getLatestBingoId()
+    if (this.bingoId === null) {
+      // 取得できない場合は、ダイアログを開く
+      this.dialog = true
+    } else {
+      // 最新のIDでビンゴカードを作成する
+      this.createBingoCard(this.bingoId)
+    }
   },
   methods: {
     /**
+     * 最新のビンゴIDを取得する
+     */
+    getLatestBingoId: async function () {
+      // オブジェクトストアの取得
+      const store = await this.getBingoObjectStore()
+
+      // 件数が0件ならNULLを返す
+      if (await store.count() === 0) {
+        return null
+      }
+      // インデックス:更新日時の取得
+      const index = await store.index('updateDateTime')
+
+      // 降順で最初の一件を取得
+      const latestBingoCard = await index.openCursor(null, 'prev')
+
+      return await latestBingoCard.value.bingoId
+    },
+    /**
      * ビンゴカードを作成する
      */
-    createBingoCard: async function (inputBingoId, inputSquares) {
+    createBingoCard: async function (inputBingoId) {
       // オブジェクトストアの取得
       const store = await this.getBingoObjectStore()
 
@@ -81,7 +108,7 @@ export default {
       // 未登録であれば、新規登録
         // ゲーム途中から新規ゲームを開始する場合も考慮して、都度squaresを新しくする
         this.squares = await this.getNewSquares()
-        await store.add({ bingoId: inputBingoId, squares: inputSquares, updateDateTime: new Date().getTime() })
+        await store.add({ bingoId: inputBingoId, squares: this.squares, updateDateTime: new Date().getTime() })
       } else {
       // 登録されていれば復元
         this.squares = await existsBingocard.squares
