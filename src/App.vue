@@ -7,7 +7,9 @@
             <v-icon left>mdi-home</v-icon>Home
           </v-btn>
         </div>
-        <div v-if='mode == "home"' class='mt-16'>
+        <div v-if='mode == "home"'>
+          <!-- タイトルを画像にするのもあり -->
+          <p id='title' class='ma-8 text-h1 font-weight-medium font-italic'>Bingo</p>
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="host"'>Host</v-btn>
           <br />
           <v-btn class='ma-2' outlined color='secondary' v-on:click='mode="player"'>Player</v-btn>
