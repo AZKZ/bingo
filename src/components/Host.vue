@@ -57,11 +57,38 @@ export default {
         nextNumber = this.getRandomNumber(1, 75)
       }
 
-      // ビューの数字を変更する
-      this.number = nextNumber
+      this.showDrawAnimation(nextNumber, 2)
     },
     getRandomNumber: function (min, max) {
       return Math.floor(min + Math.random() * (max - min + 1))
+    },
+    /**
+     * Draw時のアニメーションを表示する
+     *
+     * @description 非同期処理にして、Vueインスタンスのnumberが更新される毎にレンダリングさせている
+     * @param realNumber アニメーション終了後に表示させる数字
+     * @param seconds アニメーション見せる秒数
+     */
+    showDrawAnimation: function (realNumber, seconds) {
+      const startTime = new Date()
+
+      // 無名関数内でVueインスタンスを使うために変数に格納
+      const vueInstance = this
+
+      // 非同期にダミーの数字を設定する無名関数
+      const asyncSetDummyNumber = function () {
+        vueInstance.number = vueInstance.getRandomNumber(1, 75)
+        // 10ミリ秒間隔でこの処理を繰り返す
+        var id = setTimeout(asyncSetDummyNumber, 10)
+
+        // 開始から指定秒数経過したら、処理を止め、本当の値を設定する
+        if (new Date() - startTime > seconds * 1000) {
+          clearTimeout(id)
+          vueInstance.number = realNumber
+        }
+      }
+
+      asyncSetDummyNumber()
     }
   }
 }
