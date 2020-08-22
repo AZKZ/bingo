@@ -1,5 +1,10 @@
 <template>
   <div id='player'>
+    <router-link :to='{name: "Home"}' tag='v-btn'>
+      <v-btn class='ma-2' outlined color='secondary'>
+        <v-icon left>mdi-home</v-icon>Home
+      </v-btn>
+    </router-link>
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <div class='d-flex justify-center ma-2'>
       <table border='1'>

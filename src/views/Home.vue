@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id='home'>
+    <!-- タイトルを画像にするのもあり -->
+    <p id='title' class='ma-8 text-h1 font-weight-medium font-italic'>Bingo</p>
+    <router-link :to='{name: "Host"}' tag='v-btn'>
+      <v-btn class='ma-2' outlined color='secondary'>Host</v-btn>
+    </router-link>
+    <br />
+    <router-link :to='{name: "Player"}' tag='v-btn'>
+      <v-btn class='ma-2' outlined color='secondary'>Player</v-btn>
+    </router-link>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'Home',
   components: {
-    HelloWorld
   }
 }
 </script>
