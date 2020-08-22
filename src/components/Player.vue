@@ -1,10 +1,6 @@
 <template>
   <div id='player'>
-    <router-link :to='{name: "Home"}' tag='v-btn'>
-      <v-btn class='ma-2' outlined color='secondary'>
-        <v-icon left>mdi-home</v-icon>Home
-      </v-btn>
-    </router-link>
+    <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <div class='d-flex justify-center ma-2'>
       <table border='1'>
@@ -56,6 +52,7 @@
 
 <script>
 import { openDB } from 'idb/with-async-ittr.js'
+import HomeButton from './HomeButton.vue'
 
 export default {
   name: 'Player',
@@ -65,6 +62,9 @@ export default {
       dialog: false,
       squares: [[], [], [], [], []]
     }
+  },
+  components: {
+    HomeButton
   },
   created: async function () {
     // 先にsquaresを作らないと、isFulledの読み込みなどでエラーになる

@@ -1,10 +1,6 @@
 <template>
   <div id='host'>
-    <router-link :to='{name: "Home"}' tag='v-btn'>
-      <v-btn class='ma-2' outlined color='secondary'>
-        <v-icon left>mdi-home</v-icon>Home
-      </v-btn>
-    </router-link>
+    <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
     <v-btn class='ma-2' outlined color='primary' v-on:click='drawNumber'>Draw</v-btn>
@@ -19,6 +15,8 @@
 </template>
 
 <script>
+import HomeButton from './HomeButton.vue'
+
 export default {
   name: 'Host',
   data: function () {
@@ -27,6 +25,9 @@ export default {
       drawnNumbers: [],
       bingoId: ''
     }
+  },
+  components: {
+    HomeButton
   },
   created: function () {
     // ランダムな数字6桁をビンゴIDに設定する
