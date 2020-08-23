@@ -3,7 +3,7 @@
     <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
-    <v-btn class='ma-2' color='primary' v-on:click='drawNumber'>Draw</v-btn>
+    <v-btn class='ma-2' color='primary' v-bind:disabled='isDisabled' v-on:click='drawNumber'>Draw</v-btn>
     <v-row class='ma-2' no-gutters>
       <v-col v-for='n in drawnNumbers.length' :key='n' cols="2" md='1'>
         <v-card raised tile color="#0000">
@@ -23,7 +23,8 @@ export default {
     return {
       number: 'START',
       drawnNumbers: [],
-      bingoId: ''
+      bingoId: '',
+      isDisabled: false
     }
   },
   components: {
@@ -78,6 +79,9 @@ export default {
     showDrawAnimation: function (realNumber, seconds) {
       const startTime = new Date()
 
+      // Drawボタンを非活性にする
+      this.isDisabled = true
+
       // 無名関数内でVueインスタンスを使うために変数に格納
       const vueInstance = this
 
@@ -91,6 +95,7 @@ export default {
         if (new Date() - startTime > seconds * 1000) {
           clearTimeout(id)
           vueInstance.number = realNumber
+          vueInstance.isDisabled = false
         }
       }
 
