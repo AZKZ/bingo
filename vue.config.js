@@ -1,11 +1,9 @@
 module.exports = {
   pwa: {
-    themeColor: '#FFA500',
+    themeColor: '#2c3e50',
     appleMobileWebAppStatusBarStyle: 'black'
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/bingo/' : '/',
   outputDir: 'docs',
-  transpileDependencies: [
-    'vuetify'
-  ]
+  transpileDependencies: ['vuetify']
 }

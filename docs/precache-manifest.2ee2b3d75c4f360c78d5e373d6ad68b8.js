@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "78b91df62875d5b4b983",
+    "revision": "235d3c893c72a204cd94",
     "url": "/bingo/css/app.85cec503.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/img/background.838418bd.jpg"
   },
   {
-    "revision": "28b094f282af4b1185ba64e66a186a5c",
+    "revision": "27cb8404855db9d3308c3a30a11ae752",
     "url": "/bingo/index.html"
   },
   {
@@ -28,8 +28,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/js/about.15aa1094.js"
   },
   {
-    "revision": "78b91df62875d5b4b983",
-    "url": "/bingo/js/app.978e4c3a.js"
+    "revision": "235d3c893c72a204cd94",
+    "url": "/bingo/js/app.40c9fa6f.js"
   },
   {
     "revision": "677b8cf28808ab968513",
@@ -48,7 +48,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/js/chunk-vendors.597928d3.js"
   },
   {
-    "revision": "5da1127150612a4c9249aca9aeb342b6",
+    "revision": "e56c1865a3036f9f7f5208954b57d478",
     "url": "/bingo/manifest.json"
   },
   {
