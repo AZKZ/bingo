@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/bingo/precache-manifest.98f315ccc1116faff4cfcd7e70821c5e.js"
+  "/bingo/precache-manifest.16e4497354cb802b7290bca736de980e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "bingo"});
