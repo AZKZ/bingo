@@ -328,7 +328,7 @@ export default {
 }
 .filled {
   font-weight: lighter;
-  background-color: lightgray;
+  background-color:darkgray;
   text-decoration-line: line-through;
 }
 .reach {

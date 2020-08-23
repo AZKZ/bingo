@@ -3,10 +3,10 @@
     <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
-    <v-btn class='ma-2' outlined color='primary' v-on:click='drawNumber'>Draw</v-btn>
+    <v-btn class='ma-2' color='primary' v-on:click='drawNumber'>Draw</v-btn>
     <v-row class='ma-2' no-gutters>
       <v-col v-for='n in drawnNumbers.length' :key='n' cols="2" md='1'>
-        <v-card outlined tile>
+        <v-card raised tile color="#0000">
           <span class='text-h4 font-weight-bold'>{{drawnNumbers[n-1]}}</span>
         </v-card>
       </v-col>

@@ -1,9 +1,11 @@
 <template>
-  <v-app>
-    <v-container>
-      <router-view/>
-    </v-container>
-  </v-app>
+  <div id='app'>
+    <v-app>
+      <v-container>
+        <router-view/>
+      </v-container>
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -19,5 +21,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-image:url('~@/assets/background.jpg');
+  background-size:cover;
 }
 </style>
