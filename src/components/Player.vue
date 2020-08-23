@@ -3,7 +3,7 @@
     <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
     <div class='d-flex justify-center ma-2'>
-      <table border='1'>
+      <table border='1' bordercolor='#2c3e50'>
         <!-- 5行分繰り返す -->
         <tr v-for='recNum of 5' :key='recNum'>
           <!-- 5列分繰り返す -->
@@ -322,8 +322,8 @@ export default {
 .square {
   font-size: 150%;
   font-weight: bold;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
 }
 .filled {
