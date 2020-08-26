@@ -69,8 +69,18 @@ export default {
   created: async function () {
     // 先にsquaresを作らないと、isFulledの読み込みなどでエラーになる
     this.squares = this.getNewSquares()
-    // 最新のビンゴIDを取得
-    this.bingoId = await this.getLatestBingoId()
+
+    // URLパラメータbingoIdを取得
+    const paramBingoId = this.$route.query.bingoId
+
+    if (paramBingoId === undefined) {
+      // パラメータが無ければ、最新のビンゴIDを取得
+      this.bingoId = await this.getLatestBingoId()
+    } else {
+      // パラメータがあれば、ビンゴIDに設定
+      this.bingoId = paramBingoId
+    }
+
     if (this.bingoId === null) {
       // 取得できない場合は、ダイアログを開く
       this.dialog = true
