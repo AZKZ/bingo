@@ -22,12 +22,12 @@ const routes = [
   {
     path: '/host',
     name: 'Host',
-    component: () => import('../components/Host.vue')
+    component: () => import('../views/Host.vue')
   },
   {
     path: '/player',
     name: 'Player',
-    component: () => import('../components/Player.vue')
+    component: () => import('../views/Player.vue')
   }
 ]
 

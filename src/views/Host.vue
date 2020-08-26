@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import HomeButton from './HomeButton.vue'
+import HomeButton from '../components/HomeButton'
 
 export default {
   name: 'Host',

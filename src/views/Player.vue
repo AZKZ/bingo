@@ -52,7 +52,7 @@
 
 <script>
 import { openDB } from 'idb/with-async-ittr.js'
-import HomeButton from './HomeButton.vue'
+import HomeButton from '../components/HomeButton'
 
 export default {
   name: 'Player',
