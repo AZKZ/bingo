@@ -14,8 +14,9 @@ export default {
   created: function () {
     const redirect = sessionStorage.redirect
     delete sessionStorage.redirect
+    console.log(this.$router)
     if (redirect && redirect !== location.href) {
-      this.$router.push(redirect)
+      this.$router.replace(redirect)
     }
   }
 }
