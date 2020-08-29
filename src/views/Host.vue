@@ -29,6 +29,7 @@
               :value='joinUrl'
               @click:append='copyText(joinUrl)'>
               </v-text-field>
+              <VueQrcode :value='joinUrl'></VueQrcode>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -52,6 +53,7 @@
 
 <script>
 import HomeButton from '../components/HomeButton'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 export default {
   name: 'Host',
@@ -71,7 +73,8 @@ export default {
     }
   },
   components: {
-    HomeButton
+    HomeButton,
+    VueQrcode
   },
   created: function () {
     // ランダムな数字6桁をビンゴIDに設定する

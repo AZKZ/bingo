@@ -6,6 +6,7 @@ import 'vuetify/dist/vuetify.min.css'
 import router from './router'
 
 Vue.config.productionTip = false
+// Vue.component(VueQrcode.name, VueQrcode)
 
 new Vue({
   vuetify,
