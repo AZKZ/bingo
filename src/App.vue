@@ -10,7 +10,14 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created: function () {
+    const redirect = sessionStorage.redirect
+    delete sessionStorage.redirect
+    if (redirect && redirect !== location.href) {
+      this.$router.push(redirect)
+    }
+  }
 }
 </script>
 
