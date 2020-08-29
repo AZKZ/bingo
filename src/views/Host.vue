@@ -83,7 +83,7 @@ export default {
     }
 
     // 参加用のURLを設定
-    this.joinUrl = location.origin + '/bingo/player?bingoId=' + this.bingoId
+    this.joinUrl = location.href.replace('/host', '/player?bingoId=') + this.bingoId
   },
   methods: {
     drawNumber: function () {
