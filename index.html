@@ -2,6 +2,7 @@
         var redirect = sessionStorage.redirect
         delete sessionStorage.redirect
         if (redirect && redirect != location.href) {
+          console.log("redirect")
           history.replaceState(null, null, redirect)
         }
       }</script><script src=/bingo/js/chunk-vendors.6782b344.js></script><script src=/bingo/js/app.b30e3aa2.js></script></body></html>
