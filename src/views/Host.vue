@@ -1,9 +1,11 @@
 <template>
   <div id='host'>
     <home-button />
-    <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}</p>
+    <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}
+      <v-icon class='pb-1 pl-1' large @click='dialog=true'>mdi-link-variant</v-icon>
+    </p>
     <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
-    <v-btn class='ma-2' color='primary' v-bind:disabled='isDisabled' v-on:click='drawNumber'>Draw</v-btn>
+    <v-btn class='ma-2' color='primary' v-bind:disabled='isDrawButtonDisabled' v-on:click='drawNumber'>Draw</v-btn>
     <v-row class='ma-2' no-gutters>
       <v-col v-for='n in drawnNumbers.length' :key='n' cols="2" md='1'>
         <v-card raised tile color="#0000">
@@ -11,6 +13,40 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- ダイアログ -->
+    <v-dialog v-model='dialog' persistent max-width='500'>
+      <v-card>
+        <v-card-title primary-title>
+          <span>Join URL</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-text-field
+              filled
+              readonly
+              append-icon='mdi-content-copy'
+              :value='joinUrl'
+              @click:append='copyText(joinUrl)'>
+              </v-text-field>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color='primary' text @click='dialog = false'>Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- スナックバー -->
+    <v-snackbar
+      v-model='snackBar.isEnable'
+      :timeout=1000
+      :color='snackBar.color'
+      :top=true
+    >
+      {{snackBar.text}}
+    </v-snackbar>
   </div>
 </template>
 
@@ -24,7 +60,14 @@ export default {
       number: 'START',
       drawnNumbers: [],
       bingoId: '',
-      isDisabled: false
+      isDrawButtonDisabled: false,
+      dialog: false,
+      joinUrl: '',
+      snackBar: {
+        color: '',
+        text: '',
+        isEnable: false
+      }
     }
   },
   components: {
@@ -35,6 +78,9 @@ export default {
     for (let i = 0; i < 6; i++) {
       this.bingoId += this.getRandomNumber(1, 9)
     }
+
+    // 参加用のURLを設定
+    this.joinUrl = location.origin + '/player?bingoId=' + this.bingoId
   },
   methods: {
     drawNumber: function () {
@@ -80,7 +126,7 @@ export default {
       const startTime = new Date()
 
       // Drawボタンを非活性にする
-      this.isDisabled = true
+      this.isDrawButtonDisabled = true
 
       // 無名関数内でVueインスタンスを使うために変数に格納
       const vueInstance = this
@@ -95,11 +141,25 @@ export default {
         if (new Date() - startTime > seconds * 1000) {
           clearTimeout(id)
           vueInstance.number = realNumber
-          vueInstance.isDisabled = false
+          vueInstance.isDrawButtonDisabled = false
         }
       }
 
       asyncSetDummyNumber()
+    },
+    copyText: function (text) {
+      // Promise内でVueインスタンスを参照するための変数
+      const vueInstance = this
+
+      navigator.clipboard.writeText(text).then(function () {
+        vueInstance.snackBar.isEnable = true
+        vueInstance.snackBar.text = 'Copied!'
+        vueInstance.snackBar.color = 'success'
+      }, function () {
+        vueInstance.snackBar.isEnable = true
+        vueInstance.snackBar.text = 'Copy failed'
+        vueInstance.snackBar.color = 'error'
+      })
     }
   }
 }
