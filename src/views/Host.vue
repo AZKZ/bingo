@@ -2,7 +2,7 @@
   <div id='host'>
     <home-button />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}
-      <v-icon class='pb-1 pl-1' large @click='dialog=true'>mdi-link-variant</v-icon>
+      <v-icon class='pb-1 pl-1' large @click='dialog=true' color='primary'>mdi-account-multiple-plus</v-icon>
     </p>
     <p id='number' class='ma-2 text-h1 font-weight-black'>{{number}}</p>
     <v-btn class='ma-2' color='primary' v-bind:disabled='isDrawButtonDisabled' v-on:click='drawNumber'>Draw</v-btn>
@@ -27,7 +27,8 @@
               readonly
               append-icon='mdi-content-copy'
               :value='joinUrl'
-              @click:append='copyText(joinUrl)'>
+              @click:append='copyText(joinUrl)'
+              @click='copyText(joinUrl)'>
               </v-text-field>
               <VueQrcode :value='joinUrl'></VueQrcode>
           </v-container>
