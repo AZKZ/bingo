@@ -13,10 +13,13 @@ export default {
   name: 'App',
   created: function () {
     const redirect = sessionStorage.redirect
-    console.log(this.$router)
+    console.log('router:' + this.$router)
     delete sessionStorage.redirect
     if (redirect && redirect !== location.pathname) {
-      this.$router.push(redirect.replace(process.env.BASE_URL, '/'))
+      console.log('redirect:' + redirect)
+      const url = redirect.replace(process.env.BASE_URL, '/')
+      console.log('url:' + url)
+      this.$router.push(url)
     }
   }
 }
