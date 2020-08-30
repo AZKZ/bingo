@@ -1,11 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <script>
-      sessionStorage.redirect = location.href
-      onload = function() {
-        location.replace("/bingo/")
-      }
+      sessionStorage.redirect = location.pathname
     </script>
+    <meta http-equiv="refresh" content="0;URL=./"></meta>
   </head>
 </html>
