@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7e7cef3f8a0ae7f1e4409982fb25e6c3",
+    "revision": "47c2946f2b5c2e8b6725fe72e0464edf",
     "url": "/bingo/404.html"
   },
   {
-    "revision": "7a4db7a0808416d610da",
+    "revision": "716cc67a25a2f132f528",
     "url": "/bingo/css/app.dca04f2f.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/img/background.838418bd.jpg"
   },
   {
-    "revision": "b777f75bd1de4c9d46431056013e0043",
+    "revision": "11bf620af7bc2f3e185be453ccc0e617",
     "url": "/bingo/index.html"
   },
   {
@@ -36,8 +36,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/js/about.fa0e6d14.js"
   },
   {
-    "revision": "7a4db7a0808416d610da",
-    "url": "/bingo/js/app.7778333d.js"
+    "revision": "716cc67a25a2f132f528",
+    "url": "/bingo/js/app.2486168a.js"
   },
   {
     "revision": "37dd19b2802f8f0c4455",
