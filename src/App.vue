@@ -11,15 +11,25 @@
 <script>
 export default {
   name: 'App',
+  /**
+   * URL直打ち時に正しく画面遷移するようするための処理
+   */
   created: function () {
-    const redirect = sessionStorage.redirect
-    console.log('router:' + this.$router)
-    delete sessionStorage.redirect
-    if (redirect && redirect !== location.pathname) {
-      console.log('redirect:' + redirect)
-      const url = redirect.replace(process.env.BASE_URL, '/')
-      console.log('url:' + url)
-      this.$router.push(url)
+    // 404.htmlで保管された値を取得する
+    const redirectPathname = sessionStorage.redirectPathname
+    const redirectParamater = sessionStorage.redirectParamater
+    console.log('redirectPathname:' + redirectPathname)
+    console.log('redirectParamater:' + redirectPathname)
+
+    // 取得できたため、削除する
+    delete sessionStorage.redirectPathname
+    delete sessionStorage.redirectParamater
+
+    // URL直打ちリダイレクトされているようなら、そのパスにvue-routerで遷移する
+    if (redirectPathname && redirectPathname !== location.pathname) {
+      const pushPath = redirectPathname.replace(process.env.BASE_URL, '/') + redirectParamater
+      console.log('pushPath:' + pushPath)
+      this.$router.push(pushPath)
     }
   }
 }

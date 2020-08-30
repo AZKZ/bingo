@@ -3,7 +3,11 @@
 <html lang="en">
   <head>
     <script>
-      sessionStorage.redirect = location.pathname
+      // URL直打ち時に404画面を出さないために
+      // sessionStorageにパスとパラメーターを保存して
+      // ルートパスにリダイレクトする
+      sessionStorage.redirectPathname = location.pathname
+      sessionStorage.redirectParamater = location.search
     </script>
     <meta http-equiv="refresh" content="0;URL=./"></meta>
   </head>
