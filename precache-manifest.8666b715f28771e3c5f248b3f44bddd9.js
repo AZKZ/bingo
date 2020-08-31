@@ -4,19 +4,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/404.html"
   },
   {
-    "revision": "0b888db71459a09db892",
+    "revision": "0bf12437fb3dc8a6acdd",
     "url": "/bingo/css/app.dca04f2f.css"
   },
   {
-    "revision": "184f5b06868d946a063b",
+    "revision": "26f8baccbf2b227a5d49",
     "url": "/bingo/css/chunk-49b1e79e.7d3958a8.css"
   },
   {
-    "revision": "80af36fa954afb37415e",
+    "revision": "764104aedd297e871b6e",
     "url": "/bingo/css/chunk-6118cc94.9cffc8f2.css"
   },
   {
-    "revision": "942df84509a4b5c04910",
+    "revision": "eefd5e1b72a18aec4e4f",
     "url": "/bingo/css/chunk-de59610e.2dfa979d.css"
   },
   {
@@ -28,28 +28,28 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/img/background.838418bd.jpg"
   },
   {
-    "revision": "a654fc634240a5f145513bd7bc60826d",
+    "revision": "2982211f135b8a56a8307f2f17f4d4bf",
     "url": "/bingo/index.html"
   },
   {
-    "revision": "68a952eadfad956a3a97",
-    "url": "/bingo/js/about.fa0e6d14.js"
+    "revision": "56149b56bbb325238bf3",
+    "url": "/bingo/js/about.cba50f4f.js"
   },
   {
-    "revision": "0b888db71459a09db892",
-    "url": "/bingo/js/app.c9fe8d66.js"
+    "revision": "0bf12437fb3dc8a6acdd",
+    "url": "/bingo/js/app.1a98409e.js"
   },
   {
-    "revision": "184f5b06868d946a063b",
-    "url": "/bingo/js/chunk-49b1e79e.ac885cbb.js"
+    "revision": "26f8baccbf2b227a5d49",
+    "url": "/bingo/js/chunk-49b1e79e.03f48c52.js"
   },
   {
-    "revision": "80af36fa954afb37415e",
-    "url": "/bingo/js/chunk-6118cc94.f05093e8.js"
+    "revision": "764104aedd297e871b6e",
+    "url": "/bingo/js/chunk-6118cc94.24a067fa.js"
   },
   {
-    "revision": "942df84509a4b5c04910",
-    "url": "/bingo/js/chunk-de59610e.16a97f0c.js"
+    "revision": "eefd5e1b72a18aec4e4f",
+    "url": "/bingo/js/chunk-de59610e.3b7b9a88.js"
   },
   {
     "revision": "1451e86d08136dca2879",
