@@ -1,24 +1,21 @@
-# bingo
+# [Bingo](https://azkz.github.io/bingo/)
 
-## Project setup
-```
-npm install
-```
+## 🎉**オンラインで楽しめるビンゴゲーム**🎉
+- ### **アプリ・会員登録不要**
+- ### **通信状況の影響を受けない(PWA)**
+- ### **オンラインでも楽しめる**
+- ### **人数制限無し**
+- ### **完全無料**
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+---
+## [すぐにビンゴを開催する](https://azkz.github.io/bingo/host)
+### **URLで招待可能**
+![](docs\2020-09-02-07-13-46.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+---
+<br>
+
+### LT発表会資料
+https://speakerdeck.com/azkz/chu-metefalsevue-dot-js-de-pwa-false-bingogemuwozuo-tutahua
