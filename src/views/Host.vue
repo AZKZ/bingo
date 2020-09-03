@@ -1,6 +1,6 @@
 <template>
   <div id='host'>
-    <home-button  additionalMessage='※このビンゴゲームはリセットされます※' />
+    <home-button  additionalMessage='このビンゴゲームはリセットされます' />
     <p class='ma-2 text-h4 font-weight-thin' color='info'>ID:{{bingoId}}
       <v-icon class='pb-1 pl-1' large @click='dialog=true' color='primary'>mdi-account-multiple-plus</v-icon>
     </p>
