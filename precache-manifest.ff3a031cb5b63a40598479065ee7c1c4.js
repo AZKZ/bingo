@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/404.html"
   },
   {
-    "revision": "d17100316891debaaa98",
+    "revision": "e84f304c8789e8a13cf9",
     "url": "/bingo/css/app.dca04f2f.css"
   },
   {
-    "revision": "a536ee9853660b1b7072",
+    "revision": "22be349fa004a59098e9",
     "url": "/bingo/css/chunk-49b1e79e.7d3958a8.css"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/img/background.838418bd.jpg"
   },
   {
-    "revision": "cbb46a652e957c4511e22303fbbb4988",
+    "revision": "b44a58a31961a4be72e40074bc7cc74e",
     "url": "/bingo/index.html"
   },
   {
@@ -36,12 +36,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bingo/js/about.399d70cb.js"
   },
   {
-    "revision": "d17100316891debaaa98",
-    "url": "/bingo/js/app.3299f82e.js"
+    "revision": "e84f304c8789e8a13cf9",
+    "url": "/bingo/js/app.27600db3.js"
   },
   {
-    "revision": "a536ee9853660b1b7072",
-    "url": "/bingo/js/chunk-49b1e79e.7f5a926e.js"
+    "revision": "22be349fa004a59098e9",
+    "url": "/bingo/js/chunk-49b1e79e.2f25c1fe.js"
   },
   {
     "revision": "a7098a70a7584f63dae7",
