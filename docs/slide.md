@@ -14,7 +14,7 @@ backgroundColor: ivory
 # 自己紹介
 ## 名前：あぜがみ
 ## 年齢：25歳
-## 仕事：中小SES企業(保守運用)
+## 仕事：中小SES企業(保守運用、開発はほぼ経験無し)
 ## 言語：JavaとKotlinをほんの少し
 
 ---
@@ -34,16 +34,15 @@ backgroundColor: ivory
 - Vue.js
   - Vuetify(CSSフレームワーク)
   - Vue Router(URLルーティング)
-  - idb(indexdDBの便利ライブラリ) &emsp; など
+  - [idb](https://github.com/jakearchibald/idb)(indexdDBの便利ライブラリ、**おすすめ**) &emsp; など
 
 ### バックエンド
 - 無し
 
 ### インフラ
 - Github Pages
-  - **無料** かつ **HTTPS化**なので静的Webサイトの公開には**非常におすすめ！**
-    - でも、若干ハマったので、後述します。
-
+  - **無料** かつ **HTTPS**なので静的Webページの公開には**非常におすすめ**。
+    - でも、若干ハマったので後述します。
 
 ---
 
@@ -51,7 +50,7 @@ backgroundColor: ivory
 ## デモ
 https://azkz.github.io/bingo/
 
-![bg right 80%](2020-09-03-19-31-00.png)
+![bg right 70%](2020-09-03-19-31-00.png)
 
 ---
 
